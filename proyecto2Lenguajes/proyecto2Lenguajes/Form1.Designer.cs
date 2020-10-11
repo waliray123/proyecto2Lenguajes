@@ -136,6 +136,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(1180, 392);
             this.richTextBox1.TabIndex = 9;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged_1);
             // 
             // menuStrip1
             // 

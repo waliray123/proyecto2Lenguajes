@@ -18,6 +18,8 @@ namespace proyecto2Lenguajes.Controlers
         private List<string> arithmeticOperators;
         private List<string> relationalOperators;
         private List<string> logicOperators;
+        private List<string> primitiveReservedWords;
+        private SyntacticAnalizer syA;        
 
 
         public ControlCompile(RichTextBox richTextbox, DataGridView datagridview, ref int numberErrors)
@@ -25,6 +27,7 @@ namespace proyecto2Lenguajes.Controlers
             this.richTextBox = richTextbox;
             this.dataGridView = datagridview;
             this.numberErrors = numberErrors;
+            this.syA = new SyntacticAnalizer(datagridview);
             initCompile();
             reviewChars();
         }
@@ -33,6 +36,7 @@ namespace proyecto2Lenguajes.Controlers
         {
             //this.state = "0";
             reserverdWords = new List<string>() { "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO" };
+            primitiveReservedWords = new List<string>() { "entero", "decimal", "cadena", "booleano", "caracter" };
             arithmeticOperators = new List<string>() { "+", "-", "*", "/", "++", "--" };
             relationalOperators = new List<string>() { ">=", "<=", "==", ">", "<", "!=" };
             reserverdBoolean = new List<string>() { "verdadero", "falso" };
@@ -63,6 +67,10 @@ namespace proyecto2Lenguajes.Controlers
                         {
                             goto case 4;
                         }
+                        else if (caracter == '_')
+                        {
+                            goto case 1;
+                        }
                         else
                         {
                             goto case 3;
@@ -90,7 +98,12 @@ namespace proyecto2Lenguajes.Controlers
             for (int x = i; x < textRTB.Length; x++)
             {
                 Char caracter = Convert.ToChar(this.richTextBox.Text.Substring(x, 1));
-                if ((caracter == ' ') || isLineBreak(caracter) || (Char.IsLetter(caracter) == false && Char.IsDigit(caracter) == false))
+                if (caracter == '_')
+                {
+                    i++;
+                    word += caracter;
+                }
+                else if ((caracter == ' ') || isLineBreak(caracter) || (Char.IsLetter(caracter) == false && Char.IsDigit(caracter) == false))
                 {
                     break;
                 }
@@ -108,6 +121,10 @@ namespace proyecto2Lenguajes.Controlers
             else if (reserverdBoolean.Contains(word))
             {
                 paintReservedWords(word, i, Color.Orange);
+            }
+            else if (primitiveReservedWords.Contains(word))
+            {
+                paintReservedWords(word, i, Color.Black);
             }
             else if (word.Length == 1)
             {
@@ -306,6 +323,9 @@ namespace proyecto2Lenguajes.Controlers
                     addError("Error el operador aritmetico no es correcto");
                 }
                 i--;
+            } else if (character == '}' || character == '{') {
+                word += character;
+                setTokenSyntacticAnalizer(word);
             }
         }
         private void reviewTextString(ref int i)
@@ -476,6 +496,11 @@ namespace proyecto2Lenguajes.Controlers
             this.richTextBox.SelectionStart = this.richTextBox.Text.Length;
             this.richTextBox.SelectionColor = Color.Black;
             this.richTextBox.SelectionStart = this.richTextBox.Text.Length;
+            setTokenSyntacticAnalizer(word);
+        }
+
+        public void setTokenSyntacticAnalizer(String word) {
+            this.syA.setToken(word);
         }
 
         public Boolean isLineBreak(Char caracter)

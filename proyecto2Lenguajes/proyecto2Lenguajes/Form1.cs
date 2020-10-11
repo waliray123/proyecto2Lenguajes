@@ -130,5 +130,11 @@ namespace proyecto2Lenguajes
             this.richTextBox1.Clear();
             this.pathFile = "";
         }
+
+        private void richTextBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+
+        }
     }
 }
