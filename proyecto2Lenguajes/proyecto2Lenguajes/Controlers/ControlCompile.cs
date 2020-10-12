@@ -19,6 +19,7 @@ namespace proyecto2Lenguajes.Controlers
         private List<string> relationalOperators;
         private List<string> logicOperators;
         private List<string> primitiveReservedWords;
+        private List<string> printReadWords;
         private SyntacticAnalizer syA;        
 
 
@@ -35,6 +36,7 @@ namespace proyecto2Lenguajes.Controlers
         private void initCompile()
         {
             //this.state = "0";
+            printReadWords = new List<string>() { "imprimir", "leer" };
             reserverdWords = new List<string>() { "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO" };
             primitiveReservedWords = new List<string>() { "entero", "decimal", "cadena", "booleano", "caracter" };
             arithmeticOperators = new List<string>() { "+", "-", "*", "/", "++", "--" };
@@ -123,6 +125,10 @@ namespace proyecto2Lenguajes.Controlers
                 paintReservedWords(word, i, Color.Orange);
             }
             else if (primitiveReservedWords.Contains(word))
+            {
+                paintReservedWords(word, i, Color.Black);
+            }
+            else if (printReadWords.Contains(word))
             {
                 paintReservedWords(word, i, Color.Black);
             }

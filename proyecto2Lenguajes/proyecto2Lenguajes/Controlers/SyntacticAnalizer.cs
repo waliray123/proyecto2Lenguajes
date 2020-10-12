@@ -15,9 +15,11 @@ namespace proyecto2Lenguajes.Controlers
         String initMethod;
         String tokenG;
         String linesReview;
+        Boolean elseCame;
         private int numberErrors;
         private DataGridView dataGridView;
         private List<string> reserverdWords;
+        private List<string> printReadWords;
         private List<string> reserverdBoolean;
         private List<string> arithmeticOperators;
         private List<string> relationalOperators;
@@ -35,7 +37,8 @@ namespace proyecto2Lenguajes.Controlers
         private void initCompile()
         {
             //this.state = "0";
-            reserverdWords = new List<string>() { "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO" };
+            printReadWords = new List<string>() { "imprimir","leer"};
+            reserverdWords = new List<string>() { "SI", "SINO", "SINO_SI", "MIENTRAS", "DESDE"};
             primitiveReservedWords = new List<string>() { "entero", "decimal", "cadena", "booleano", "caracter" };
             arithmeticOperators = new List<string>() { "+", "-", "*", "/", "++", "--" };
             relationalOperators = new List<string>() { ">=", "<=", "==", ">", "<", "!=" };
@@ -60,6 +63,10 @@ namespace proyecto2Lenguajes.Controlers
                 {
                     initMethod += token;
                 }
+                else
+                {
+                    reviewToken();
+                }
             }
             else if (token == ")")
             {
@@ -67,33 +74,47 @@ namespace proyecto2Lenguajes.Controlers
                 {
                     initMethod += token;
                 }
+                else
+                {
+                    reviewToken();
+                }
             }
             else if (token == "{")
             {
                 if (pile.Count == 0)
                 {
+                    pile.Add("$");
                     pile.Add("O");
                     initMethod += token;
+                }
+                else {
+                    reviewToken();
                 }
             }
             else {
                 if (token == "}")
                 {
-                    if (initMethod == "principal(){" && pile[pile.Count - 1] == "O")
+                    if ((initMethod == "principal(){" && pile[pile.Count - 2] == "$") || (pile[pile.Count - 1] == "Q" &&
+                        initMethod == "principal(){" && pile[pile.Count - 3] == "$"))
                     {
                         initMethod = "";
+                        addError("No hay errores");
                     }
-                    else
+                    else if (pile.Count <= 2)
                     {
                         addError("El metodo esta mal construido");
                     }
+                    else
+                    {
+                        reviewToken();
+                    }
                 }
-                else if (pile.Count > 0)
+                else if (pile.Count > 1)
                 {
                     reviewToken();
                 }
                 else {
-                    addError("No se ha construido un metodo");
+                    addError("Error sintactico en el metodo");
                 }
             }
         }
@@ -106,26 +127,50 @@ namespace proyecto2Lenguajes.Controlers
             {
                 if (this.primitiveReservedWords.Contains(this.tokenG))
                 {
-                    //addDiferentsToPile(";,L,=,I");
                     addDiferentsToPile("X,I");
+                }
+                else if (this.printReadWords.Contains(this.tokenG))
+                {
+                    addDiferentsToPile("),C,(");
                 }
                 else if (this.reserverdWords.Contains(this.tokenG))
                 {
                     if (this.tokenG == "SI")
                     {
-                        pile.Add("Q");
+                        addDiferentsToPile("Q,},O,{,),B,(");
                     }
                     else if (this.tokenG == "MIENTRAS")
                     {
-                        pile.Add("Y");
+                        addDiferentsToPile("},O,{,),B,(");
                     }
+                    else if (this.tokenG == "DESDE")
+                    {
+                        addDiferentsToPile("},O,{,Z,INCREMENTO,Z,W,id,HASTA,Z,=,id");
+                    }
+                }
+                else if (tokenG == "}")
+                {
+                    pile.RemoveAt(sizeP);
+                    pile.RemoveAt(sizeP-1);
+                }
+            }
+            else if (pile[sizeP] == "Q")
+            {
+                pile.RemoveAt(sizeP);
+                if (tokenG == "SINO_SI")
+                {
+                    addDiferentsToPile("Q,},O,{,),B,(");
+                }
+                else if (tokenG == "SINO")
+                {
+                    addDiferentsToPile("},O,{");
                 }
             }
             else if (pile[sizeP] == "I" && tokenG == "id")
             {
                 pile.RemoveAt(sizeP);
             }
-            else if (pile[sizeP] == "X")//TODO
+            else if (pile[sizeP] == "X")
             {
                 if (tokenG == ";")
                 {
@@ -141,12 +186,101 @@ namespace proyecto2Lenguajes.Controlers
             {
                 pile.RemoveAt(sizeP);
             }
+            else if (pile[sizeP] == "C")
+            {
+                if (tokenG != "+")
+                {
+                    if (tokenG == "id" || reviewLocalVar() == true)
+                    {
+                        pile.RemoveAt(sizeP);
+                        pile.Add("C'");
+                    }
+                }
+                else
+                {
+                    addError("Error sintactico al imprimir/leer");
+                }
+            }
+            else if (pile[sizeP] == "C'")
+            {
+                if (tokenG == ")")
+                {
+                    pile.RemoveAt(sizeP);
+                    pile.RemoveAt(sizeP - 1);
+                }
+                else if (tokenG == "+")
+                {
+                    pile.RemoveAt(sizeP);
+                    pile.Add("C");
+                }
+            }
+            else if (pile[sizeP] == "B")
+            {
+                if (tokenG == "verdadero" || tokenG == "falso")
+                {
+                    pile.RemoveAt(sizeP);
+                }
+                else if (tokenG == "id" || this.reviewLocalVar() == true)
+                {
+                    pile.Add("B'");
+                }
+            }           
+            else if (pile[sizeP] == "B'")
+            {
+                if (relationalOperators.Contains(tokenG) || logicOperators.Contains(tokenG))
+                {
+                    pile.RemoveAt(sizeP);
+                }
+                else if (tokenG == ")")
+                {
+                    pile.RemoveAt(sizeP);
+                    pile.RemoveAt(sizeP-1);
+                    pile.RemoveAt(sizeP - 2);
+                }
+            }
+            else if (pile[sizeP] == "Z")
+            {
+                if (reviewNumOrId() == true)
+                {
+                    pile.RemoveAt(sizeP);
+                }
+            }
+            else if (pile[sizeP] == "W")
+            {
+                if (relationalOperators.Contains(tokenG))
+                {
+                    pile.RemoveAt(sizeP);
+                }
+            }            
             else if (pile[sizeP] == this.tokenG)
             {
                 pile.RemoveAt(sizeP);
             }
+            else
+            {
+                addError("Error sintactico");
+            }            
         }
 
+        private Boolean reviewNumOrId() {
+            Boolean isCorrect = false;
+            int result;
+            double result2;
+            if (tokenG == "id")
+            {
+                isCorrect = true;
+            }
+            else if (int.TryParse(this.tokenG, out result))
+            {
+                isCorrect = true;
+            }
+            else if (double.TryParse(this.tokenG, out result2))
+            {
+                isCorrect = true;
+            }
+
+            return isCorrect;
+        }
         private Boolean reviewLocalVar() {
             Boolean isCorrect = false;
             int result;
