@@ -315,7 +315,7 @@ namespace proyecto2Lenguajes.Controlers
             if (tokenG.Substring(0, 1) == "_")
             {
                 tokenG = "id";                
-            } else if (tokenG.Substring(0, 1) == "=")
+            } else if (tokenG == "= ")
             {
                 tokenG = "=";
             }

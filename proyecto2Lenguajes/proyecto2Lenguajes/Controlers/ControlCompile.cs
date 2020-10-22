@@ -20,7 +20,8 @@ namespace proyecto2Lenguajes.Controlers
         private List<string> logicOperators;
         private List<string> primitiveReservedWords;
         private List<string> printReadWords;
-        private SyntacticAnalizer syA;        
+        private SyntacticAnalizer syA;
+        private PileTokens pileTokens;       
 
 
         public ControlCompile(RichTextBox richTextbox, DataGridView datagridview, ref int numberErrors)
@@ -29,6 +30,7 @@ namespace proyecto2Lenguajes.Controlers
             this.dataGridView = datagridview;
             this.numberErrors = numberErrors;
             this.syA = new SyntacticAnalizer(datagridview);
+            this.pileTokens = new PileTokens();
             initCompile();
             reviewChars();
         }
@@ -91,6 +93,10 @@ namespace proyecto2Lenguajes.Controlers
                         break;
                 }
                 isLineBreak(caracter);
+            }
+            if (this.numberErrors == 0)
+            {
+                Analizer analiz = new Analizer(this.dataGridView,this.pileTokens);                
             }
         }
 
@@ -506,7 +512,8 @@ namespace proyecto2Lenguajes.Controlers
         }
 
         public void setTokenSyntacticAnalizer(String word) {
-            this.syA.setToken(word);
+            //this.syA.setToken(word);
+            this.pileTokens.setNewToken(word);
         }
 
         public Boolean isLineBreak(Char caracter)
