@@ -20,8 +20,10 @@ namespace proyecto2Lenguajes.Controlers
         private List<string> logicOperators;
         private List<string> primitiveReservedWords;
         private List<string> printReadWords;
+        private List<string> methodWords;
         private SyntacticAnalizer syA;
-        private PileTokens pileTokens;       
+        private PileTokens pileTokens;
+        private int numberRow;        
 
 
         public ControlCompile(RichTextBox richTextbox, DataGridView datagridview, ref int numberErrors)
@@ -31,6 +33,7 @@ namespace proyecto2Lenguajes.Controlers
             this.numberErrors = numberErrors;
             this.syA = new SyntacticAnalizer(datagridview);
             this.pileTokens = new PileTokens();
+            this.numberRow = 0;
             initCompile();
             reviewChars();
         }
@@ -45,6 +48,7 @@ namespace proyecto2Lenguajes.Controlers
             relationalOperators = new List<string>() { ">=", "<=", "==", ">", "<", "!=" };
             reserverdBoolean = new List<string>() { "verdadero", "falso" };
             logicOperators = new List<string>() { "||", "&&", "!" };
+            methodWords= new List<string>() { "principal"};
             this.dataGridView.Rows.Clear();
             this.numberErrors = 0;
         }
@@ -138,6 +142,10 @@ namespace proyecto2Lenguajes.Controlers
             {
                 paintReservedWords(word, i, Color.Black);
             }
+            else if (methodWords.Contains(word))
+            {
+                paintReservedWords(word, i, Color.Black);
+            }
             else if (word.Length == 1)
             {
                 paintReservedWords(word, i, Color.Brown);
@@ -145,6 +153,14 @@ namespace proyecto2Lenguajes.Controlers
             else
             {
                 paintReservedWords(word, i, Color.Black);
+                if (word.Length > 1)
+                {
+                    Char first = Convert.ToChar(word.Substring(0, 1));
+                    if (first != '_')
+                    {
+                        addError("Al identificador le falta el _ al inicio");
+                    }
+                }
                 //MessageBox.Show(word + " Es un identificador");
             }
             i--;
@@ -168,7 +184,11 @@ namespace proyecto2Lenguajes.Controlers
                     {
                         reviewComment2(ref i);
                     }
-                    else if (character == ' ' || isLineBreak(character))
+                    else if (character == ' ')
+                    {
+                        paintReservedWords(word, i + 1, Color.Blue);
+                    }
+                    else if (isLineBreak(character))
                     {
                         paintReservedWords(word, i + 1, Color.Blue);
                     }
@@ -513,13 +533,14 @@ namespace proyecto2Lenguajes.Controlers
 
         public void setTokenSyntacticAnalizer(String word) {
             //this.syA.setToken(word);
-            this.pileTokens.setNewToken(word);
+            this.pileTokens.setNewToken(word,this.numberRow);
         }
 
         public Boolean isLineBreak(Char caracter)
         {
             if (caracter.Equals('\n'))
             {
+                this.numberRow += 1;
                 return true;
             }
             return false;
@@ -532,6 +553,7 @@ namespace proyecto2Lenguajes.Controlers
             row.CreateCells(this.dataGridView);
             row.Cells[0].Value = this.numberErrors;
             row.Cells[1].Value = typeError;
+            row.Cells[2].Value = this.numberRow;
             this.dataGridView.Rows.Add(row);
         }
     }

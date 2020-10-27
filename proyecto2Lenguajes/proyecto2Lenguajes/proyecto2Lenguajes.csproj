@@ -60,6 +60,7 @@
     <Compile Include="GUILogic\Load.cs" />
     <Compile Include="GUILogic\Save.cs" />
     <Compile Include="ObjectsCompile\RowSA.cs" />
+    <Compile Include="ObjectsCompile\token.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

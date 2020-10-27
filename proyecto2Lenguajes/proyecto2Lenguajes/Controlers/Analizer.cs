@@ -12,6 +12,7 @@ namespace proyecto2Lenguajes.Controlers
     {
         private List<string> pile;
         private List<string> tokens;
+        private List<token> pileTokens;
         private List<RowSA> tableSA = new List<RowSA>();
         private int numberErrors;
         private DataGridView dataGridView;        
@@ -21,10 +22,10 @@ namespace proyecto2Lenguajes.Controlers
         public Analizer(DataGridView datagridview, PileTokens pileTokens)
         {
             this.pile = new List<string>();
-            this.dataGridView = datagridview;
-            tokens = pileTokens.getPileTokens();
+            this.dataGridView = datagridview;            
+            this.pileTokens = pileTokens.getPileTokens();
             getTableToSet();
-            if (this.tokens.Count > 0)
+            if (this.pileTokens.Count > 0)
             {
                 analizeCode();
             }            
@@ -44,7 +45,8 @@ namespace proyecto2Lenguajes.Controlers
             {
                 int pileSize = this.pile.Count();
                 String lastInPile = this.pile[pileSize-1];
-                String tokenRequired = this.tokens[numberOfToken];
+                token tokenR = this.pileTokens[numberOfToken];
+                String tokenRequired = tokenR.getName();
                 if (namesNoTerminal.Contains(lastInPile))
                 {
                     Boolean isError = true;
@@ -64,8 +66,11 @@ namespace proyecto2Lenguajes.Controlers
                     }
                     if (isError == true)
                     {
-                        pile.RemoveAt(pileSize-1);
-                        addError("Error sintactico");
+                        if (lastInPile != "Q'")
+                        {
+                            addError("Error sintactico", tokenR.getRow().ToString());
+                        }
+                        pile.RemoveAt(pileSize-1);                        
                     }
                 }
                 else
@@ -85,7 +90,7 @@ namespace proyecto2Lenguajes.Controlers
                         else
                         {
                             pile.RemoveAt(pileSize-1);
-                            addError("Se esperaba: " + lastInPile);
+                            addError("Se esperaba: " + lastInPile, tokenR.getRow().ToString());
                         }                        
                     }
                 }
@@ -106,13 +111,14 @@ namespace proyecto2Lenguajes.Controlers
             }            
         }
 
-        public void addError(String typeError)
+        public void addError(String typeError,String row1)
         {
             this.numberErrors++;
             DataGridViewRow row = new DataGridViewRow();
             row.CreateCells(this.dataGridView);
             row.Cells[0].Value = this.numberErrors;
             row.Cells[1].Value = typeError;
+            row.Cells[2].Value = row1;
             this.dataGridView.Rows.Add(row);
         }
     }

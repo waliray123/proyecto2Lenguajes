@@ -66,13 +66,13 @@ namespace proyecto2Lenguajes.Controlers
             tableSA.Add(row = new RowSA("B'", ")", "reduce"));
             tableSA.Add(row = new RowSA("B'", "||", "||.B"));
             tableSA.Add(row = new RowSA("B'", "&&", "&&.B"));
-            tableSA.Add(row = new RowSA("Q", "SI", "SI.(.B.).{.O.}.Q'"));
+            tableSA.Add(row = new RowSA("Q", "SI", "SI.(.B.).{.O.}.Q'.O"));
             tableSA.Add(row = new RowSA("Q'", "SINO_SI", "SINO_SI.(.B.).{.O.}.Q'"));
             tableSA.Add(row = new RowSA("Q'", "SINO", "SINO.{.O.}"));
             //Q' es especial si viene cualquier otra cosa se elimina
-            tableSA.Add(row = new RowSA("Y", "MIENTRAS", "MIENTRAS.(.B.).{.O.}"));
-            tableSA.Add(row = new RowSA("J", "HACER", "HACER.{.O.}.MIENTRAS.(.B.)"));
-            tableSA.Add(row = new RowSA("U", "DESDE", "DESDE.id.=.numE.HASTA.id.W.numE.INCREMENTO.numE.{.O.}"));
+            tableSA.Add(row = new RowSA("Y", "MIENTRAS", "MIENTRAS.(.B.).{.O.}.O"));
+            tableSA.Add(row = new RowSA("J", "HACER", "HACER.{.O.}.MIENTRAS.(.B.).O"));
+            tableSA.Add(row = new RowSA("U", "DESDE", "DESDE.id.=.numE.HASTA.id.W.numE.INCREMENTO.numE.{.O.}.O"));
             tableSA.Add(row = new RowSA("W", ">", ">"));
             tableSA.Add(row = new RowSA("W", "<", "<"));
             tableSA.Add(row = new RowSA("W", ">=", ">="));

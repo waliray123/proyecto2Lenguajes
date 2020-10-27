@@ -1,4 +1,5 @@
-﻿using System;
+﻿using proyecto2Lenguajes.ObjectsCompile;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,20 +11,26 @@ namespace proyecto2Lenguajes.Controlers
     {
 
         private List<string> tokens;
+        private List<token> pileTokens;
 
         public PileTokens() {
             tokens = new List<string>();
-        }
+            pileTokens = new List<token>();
+    }
 
-        public List<string> getPileTokens()
+        public List<token> getPileTokens()
         {
-            return tokens;
+            return pileTokens;
         }
 
-        public void setNewToken(String token)
+        public void setNewToken(String token, int row)
         {
             token = getTypeToken(token);
-            tokens.Add(token);
+            if (verifyComments(token) == false)
+            {
+                token tok = new token(token,row);
+                pileTokens.Add(tok);
+            }            
         }
 
         public String getTypeToken(String token) {
@@ -69,7 +76,19 @@ namespace proyecto2Lenguajes.Controlers
             return tokenR;
         }
 
-       
+        public Boolean verifyComments(String token)
+        {
+            Boolean isComment = false;
+            if (token.Length >= 2)
+            {
+                String first2Char = token.Substring(0, 2);
+                if (first2Char == "//" || first2Char == "/*")
+                {
+                    isComment = true;
+                }
+            }
+            return isComment;
+        }
 
     }
 }
