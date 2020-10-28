@@ -18,6 +18,7 @@ namespace proyecto2Lenguajes.Controlers
         private DataGridView dataGridView;        
         private List<String> namesNoTerminal = new List<string>() { "E", "V", "R", "O", "L","C","C'","X","I","B","B'","Q","Q'","Y","J","U","W","T" };
         private int numberOfToken;
+        private Tree treeSyntactic;
 
         public Analizer(DataGridView datagridview, PileTokens pileTokens)
         {
@@ -40,6 +41,7 @@ namespace proyecto2Lenguajes.Controlers
         private void analizeCode()
         {
             pile.Add("E");
+            treeSyntactic = new Tree("E");
             this.numberOfToken = 0;
             while (this.pile.Count > 0)
             {
@@ -60,6 +62,7 @@ namespace proyecto2Lenguajes.Controlers
                             pile.RemoveAt(pileSize-1);
                             String values = row.getVal();
                             addDiferentsToPile(values);
+                            treeSyntactic.setValues(values);
                             isError = false;
                             break;
                         }
@@ -95,6 +98,7 @@ namespace proyecto2Lenguajes.Controlers
                     }
                 }
             }
+            //TODO Crear arbol, crear grafico
         }
 
         public void addDiferentsToPile(String values)
@@ -110,6 +114,8 @@ namespace proyecto2Lenguajes.Controlers
                 pile.Add(item);
             }            
         }
+
+        
 
         public void addError(String typeError,String row1)
         {
