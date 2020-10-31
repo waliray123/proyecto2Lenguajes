@@ -10,6 +10,7 @@ namespace proyecto2Lenguajes.ObjectsCompile
     {
         private String name;
         private int row;
+        private String val;
 
         public token(String name, int row)
         {
@@ -35,6 +36,15 @@ namespace proyecto2Lenguajes.ObjectsCompile
         public void setRow(int row)
         {
             this.row = row;
+        }
+
+        public void setVal(String val)
+        {
+            this.val = val;
+        }
+        public String getVal()
+        {
+            return this.val;
         }
     }
 }

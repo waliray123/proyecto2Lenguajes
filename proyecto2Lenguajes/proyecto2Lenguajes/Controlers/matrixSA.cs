@@ -32,7 +32,7 @@ namespace proyecto2Lenguajes.Controlers
             tableSA.Add(row = new RowSA("O", "caracter", "V"));
             tableSA.Add(row = new RowSA("O", "imprimir", "R"));
             tableSA.Add(row = new RowSA("O", "leer", "R"));
-            tableSA.Add(row = new RowSA("O", "id", "id.=.L.;"));
+            tableSA.Add(row = new RowSA("O", "id", "id.P.O"));
             tableSA.Add(row = new RowSA("O", "}", "reduce"));
             tableSA.Add(row = new RowSA("O", "SI", "Q"));
             tableSA.Add(row = new RowSA("O", "MIENTRAS", "Y"));
@@ -81,6 +81,13 @@ namespace proyecto2Lenguajes.Controlers
             tableSA.Add(row = new RowSA("W", "!=", "!="));
             tableSA.Add(row = new RowSA("T", "||", "||"));
             tableSA.Add(row = new RowSA("T", "&&", "&&"));
+            tableSA.Add(row = new RowSA("P", "=", "=.L.P'.;"));
+            tableSA.Add(row = new RowSA("P", "++", "++.;"));
+            tableSA.Add(row = new RowSA("P", "--", "--.;"));
+            tableSA.Add(row = new RowSA("P'", "+", "+.L.P'"));
+            tableSA.Add(row = new RowSA("P'", "-", "-.L.P'"));
+            tableSA.Add(row = new RowSA("P'", ";", "reduce"));
+            
         }
 
         public List<RowSA> getTable() {

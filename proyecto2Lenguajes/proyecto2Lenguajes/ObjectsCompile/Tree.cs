@@ -11,13 +11,14 @@ namespace proyecto2Lenguajes.ObjectsCompile
         private NodeTree rootNode;
         private NodeTree nodeUsing;
         private int codeUsing;
-        private List<String> namesNoTerminal = new List<string>() { "E", "V", "R", "O", "L", "C", "C'", "X", "I", "B", "B'", "Q", "Q'", "Y", "J", "U", "W", "T" };
+        private List<String> namesNoTerminal = new List<string>() { "E", "V", "R", "O", "L", "C", "C'", "X", "I", "B", "B'", "Q", "Q'", "Y", "J", "U", "W", "T","P","P'" };
+        
 
 
         public Tree(String nodeName) {
             codeUsing = 0;
             String nodeCode = codeUsing.ToString(); 
-            rootNode = new NodeTree(nodeCode,nodeName);
+            rootNode = new NodeTree("node"+ nodeCode,nodeName);
             nodeUsing = rootNode;
         }
 
@@ -30,7 +31,8 @@ namespace proyecto2Lenguajes.ObjectsCompile
                 if (valuesToInsert[valuesToInsert.Length -1].Equals("reduce") == false)
                 {
                     codeUsing++;
-                    NodeTree nodeInsert = new NodeTree(codeUsing.ToString(), item);
+                    
+                    NodeTree nodeInsert = new NodeTree("node" + codeUsing.ToString(), item);
                     nodeInsert.setNodeParent(this.nodeUsing);
                     childsNodeUsing.Add(nodeInsert);
                 }                
@@ -64,6 +66,11 @@ namespace proyecto2Lenguajes.ObjectsCompile
                 }                
             }
 
+        }
+
+        public NodeTree getRootNode()
+        {
+            return this.rootNode;
         }
 
 

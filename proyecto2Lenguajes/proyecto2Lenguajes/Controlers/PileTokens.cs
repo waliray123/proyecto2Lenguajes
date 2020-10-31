@@ -29,6 +29,7 @@ namespace proyecto2Lenguajes.Controlers
             if (verifyComments(token) == false)
             {
                 token tok = new token(token,row);
+                setVal(token,tok);
                 pileTokens.Add(tok);
             }            
         }
@@ -74,6 +75,15 @@ namespace proyecto2Lenguajes.Controlers
                 tokenR = "bool";
             }
             return tokenR;
+        }
+
+        public void setVal(String valToken, token tokenSet)
+        {
+            if (tokenSet.getName().Equals("id") || tokenSet.getName().Equals("numE") || tokenSet.getName().Equals("numD") ||
+                tokenSet.getName().Equals("char") || tokenSet.getName().Equals("cad") || tokenSet.getName().Equals("bool"))
+            {
+                tokenSet.setVal(valToken);
+            }
         }
 
         public Boolean verifyComments(String token)

@@ -24,6 +24,7 @@ namespace proyecto2Lenguajes
             pathFile = "";
             numberErrors = 0;
             this.control = new ControlCompile(this.richTextBox1, this.dataGridView1, ref this.numberErrors);
+              
         }
 
         private void archivoToolStripMenuItem_Click(object sender, EventArgs e)
