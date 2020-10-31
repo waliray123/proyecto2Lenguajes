@@ -25,11 +25,12 @@ namespace proyecto2Lenguajes.Controlers
 
         public void setNewToken(String token, int row)
         {
+            String realVal = token;
             token = getTypeToken(token);
             if (verifyComments(token) == false)
             {
                 token tok = new token(token,row);
-                setVal(token,tok);
+                setVal(token,tok,realVal);
                 pileTokens.Add(tok);
             }            
         }
@@ -77,12 +78,17 @@ namespace proyecto2Lenguajes.Controlers
             return tokenR;
         }
 
-        public void setVal(String valToken, token tokenSet)
+        public void setVal(String valToken, token tokenSet,String realVal)
         {
             if (tokenSet.getName().Equals("id") || tokenSet.getName().Equals("numE") || tokenSet.getName().Equals("numD") ||
-                tokenSet.getName().Equals("char") || tokenSet.getName().Equals("cad") || tokenSet.getName().Equals("bool"))
+                tokenSet.getName().Equals("char") || tokenSet.getName().Equals("bool"))
             {
-                tokenSet.setVal(valToken);
+                tokenSet.setVal(realVal);
+            }
+            if (tokenSet.getName().Equals("cad"))
+            {
+                String newRealVal = realVal.Replace('"',' ');
+                tokenSet.setVal(newRealVal);
             }
         }
 

@@ -34,11 +34,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutocompleteMenu-ScintillaNET, Version=1.3.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCompleteMenu-ScintillaNET.1.6.1\lib\net40\AutocompleteMenu-ScintillaNET.dll</HintPath>
+      <HintPath>..\packages\AutoCompleteMenu-ScintillaNET.1.3.0\lib\net40\AutocompleteMenu-ScintillaNET.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
+    <Reference Include="ScintillaNET, Version=3.5.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jacobslusser.ScintillaNET.3.5.10\lib\net40\ScintillaNET.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -69,6 +69,7 @@
     <Compile Include="GUILogic\Load.cs" />
     <Compile Include="GUILogic\Save.cs" />
     <Compile Include="ObjectsCompile\NodeTree.cs" />
+    <Compile Include="ObjectsCompile\NodeWaited.cs" />
     <Compile Include="ObjectsCompile\RowSA.cs" />
     <Compile Include="ObjectsCompile\token.cs" />
     <Compile Include="ObjectsCompile\Tree.cs" />

@@ -11,13 +11,15 @@ namespace proyecto2Lenguajes.Controlers
 {
     class CreateTreeFile
     {
-        private Tree treeSyntactic;
+       // private Tree treeSyntactic;
+        private TreeAS treeAS;
         private String textWrite;
         private NodeTree firstNode;
 
-        public CreateTreeFile(Tree treeSyntactic1)
+        public CreateTreeFile(TreeAS treeAS)//Tree treeSyntactic1,
         {
-            this.treeSyntactic = treeSyntactic1;
+            //this.treeSyntactic = treeSyntactic1;
+            this.treeAS = treeAS;
             createStringSave();
             saveTree();
         }
@@ -31,11 +33,14 @@ namespace proyecto2Lenguajes.Controlers
 
         private void setFirstNode()
         {
-            String codeNode = treeSyntactic.getRootNode().getCode();
-            String nameNode = treeSyntactic.getRootNode().getName();
+            // String codeNode = treeSyntactic.getRootNode().getCode();
+            // String nameNode = treeSyntactic.getRootNode().getName();
+             String codeNode = treeAS.getRootNode().getCode();
+            String nameNode = treeAS.getRootNode().getName();
             textWrite += '\n';
             textWrite += codeNode + "[label = \""+ nameNode + "\"];";
-            setNodeAllNodes(treeSyntactic.getRootNode());
+            //setNodeAllNodes(treeSyntactic.getRootNode());
+            setNodeAllNodes(treeAS.getRootNode());
         }
 
 

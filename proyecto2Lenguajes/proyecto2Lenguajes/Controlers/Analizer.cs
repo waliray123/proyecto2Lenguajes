@@ -18,8 +18,8 @@ namespace proyecto2Lenguajes.Controlers
         private DataGridView dataGridView;        
         private List<String> namesNoTerminal = new List<string>() { "E", "V", "R", "O", "L","C","C'","X","I","B","B'","Q","Q'","Y","J","U","W","T", "P", "P'" };
         private int numberOfToken;
-        private Tree treeSyntactic;
-        //private TreeAS treeSyntactic;
+        //private Tree treeSyntactic;
+        private TreeAS treeSyntactic;
 
         public Analizer(DataGridView datagridview, PileTokens pileTokens)
         {
@@ -42,8 +42,8 @@ namespace proyecto2Lenguajes.Controlers
         private void analizeCode()
         {
             pile.Add("E");
-             treeSyntactic = new Tree("E");
-            //treeSyntactic = new TreeAS("E");
+            //treeSyntactic = new Tree("E");
+            treeSyntactic = new TreeAS("E");
             this.numberOfToken = 0;
             while (this.pile.Count > 0)
             {
@@ -64,8 +64,8 @@ namespace proyecto2Lenguajes.Controlers
                             pile.RemoveAt(pileSize-1);
                             String values = row.getVal();
                             addDiferentsToPile(values);
-                            treeSyntactic.setValues(values);
-
+                            //treeSyntactic.setValues(values);
+                            treeSyntactic.setNoTerminal(nameNoTerminal, tokenR);                       
                             isError = false;
                             break;
                         }
@@ -90,7 +90,7 @@ namespace proyecto2Lenguajes.Controlers
                     {
                         if (lastInPile == tokenRequired)
                         {
-                            //treeSyntactic.setNode(tokenR);
+                            treeSyntactic.setNode(tokenR);
                             pile.RemoveAt(pileSize-1);
                             this.numberOfToken++;
                         }
@@ -102,7 +102,7 @@ namespace proyecto2Lenguajes.Controlers
                     }
                 }
             }
-            CreateTreeFile createtree = new CreateTreeFile(this.treeSyntactic);
+            CreateTreeFile createtree = new CreateTreeFile(this.treeSyntactic);//this.treeSyntactic
             //TODO Crear arbol, crear grafico
         }
 

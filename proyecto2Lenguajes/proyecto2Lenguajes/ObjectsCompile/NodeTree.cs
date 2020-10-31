@@ -37,6 +37,11 @@ namespace proyecto2Lenguajes.ObjectsCompile
             this.childs = childs;
         }
 
+        public void setNewChild(NodeTree child)
+        {
+            this.childs.Add(child);
+        }
+
         public void setNodeParent(NodeTree node)
         {
             this.nodeParent = node;
