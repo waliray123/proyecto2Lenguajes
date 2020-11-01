@@ -23,17 +23,23 @@ namespace proyecto2Lenguajes.Controlers
         private List<string> methodWords;
         private SyntacticAnalizer syA;
         private PileTokens pileTokens;
-        private int numberRow;        
+        private int numberRow;
+        private Form1 form1;   
 
 
         public ControlCompile(RichTextBox richTextbox, DataGridView datagridview, ref int numberErrors)
         {
+                        
             this.richTextBox = richTextbox;
             this.dataGridView = datagridview;
             this.numberErrors = numberErrors;
             this.syA = new SyntacticAnalizer(datagridview);
             this.pileTokens = new PileTokens();
-            this.numberRow = 0;
+            this.numberRow = 0;            
+        }
+
+        public void compileAllCode()
+        {
             initCompile();
             reviewChars();
         }
@@ -100,7 +106,11 @@ namespace proyecto2Lenguajes.Controlers
             }
             if (this.numberErrors == 0)
             {
-                Analizer analiz = new Analizer(this.dataGridView,this.pileTokens);                
+
+                Analizer analiz = new Analizer(this.dataGridView,this.pileTokens);
+                //setForm1
+                analiz.setForm1(this.form1);
+                analiz.analize();
             }
         }
 
@@ -555,6 +565,11 @@ namespace proyecto2Lenguajes.Controlers
             row.Cells[1].Value = typeError;
             row.Cells[2].Value = this.numberRow;
             this.dataGridView.Rows.Add(row);
+        }
+
+        public void setForm1(Form1 form1)
+        {
+            this.form1 = form1;
         }
     }
 }

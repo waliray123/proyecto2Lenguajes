@@ -1,5 +1,6 @@
 ﻿using proyecto2Lenguajes.Controlers;
 using proyecto2Lenguajes.GUILogic;
+using proyecto2Lenguajes.ObjectsCompile;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,13 +19,14 @@ namespace proyecto2Lenguajes
         private String pathFile;
         private int numberErrors;
         private ControlCompile control;
+        private TreeAS tree;
         public Form1()
         {
             InitializeComponent();
             pathFile = "";
-            numberErrors = 0;
+            numberErrors = 0;            
             this.control = new ControlCompile(this.richTextBox1, this.dataGridView1, ref this.numberErrors);
-              
+            this.control.setForm1(this);
         }
 
         private void archivoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -41,7 +43,8 @@ namespace proyecto2Lenguajes
         private void button1_Click(object sender, EventArgs e)
         {
             this.control = new ControlCompile(this.richTextBox1, this.dataGridView1, ref this.numberErrors);
-
+            this.control.setForm1(this);
+            this.control.compileAllCode();
             int position = this.richTextBox1.SelectionStart;
             int line = this.richTextBox1.GetLineFromCharIndex(position) + 1;
             int column = position - this.richTextBox1.GetFirstCharIndexOfCurrentLine();
@@ -137,5 +140,25 @@ namespace proyecto2Lenguajes
 
 
         }
+
+        private void exportarArbolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tree != null)
+            {
+                CreateTreeFile createTreeFile = new CreateTreeFile(this.tree);
+                String pathImage = "";
+
+                FormImage formI = new FormImage(pathImage);
+            }
+            else
+            {
+                MessageBox.Show(this, "No se ha creado ningun árbol","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+        }
+        public void setTreeAS(object tree)
+        {
+            this.tree = (TreeAS)tree;
+        }
     }
+    
 }

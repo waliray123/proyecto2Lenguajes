@@ -20,17 +20,23 @@ namespace proyecto2Lenguajes.Controlers
         private int numberOfToken;
         //private Tree treeSyntactic;
         private TreeAS treeSyntactic;
+        private Form1 form1;
 
         public Analizer(DataGridView datagridview, PileTokens pileTokens)
         {
+            
             this.pile = new List<string>();
             this.dataGridView = datagridview;            
             this.pileTokens = pileTokens.getPileTokens();
-            getTableToSet();
+            getTableToSet();                      
+        }
+
+        public void analize()
+        {
             if (this.pileTokens.Count > 0)
             {
                 analizeCode();
-            }            
+            }
         }
         
         private void getTableToSet()
@@ -102,7 +108,8 @@ namespace proyecto2Lenguajes.Controlers
                     }
                 }
             }
-            CreateTreeFile createtree = new CreateTreeFile(this.treeSyntactic);//this.treeSyntactic
+            this.form1.setTreeAS((object)this.treeSyntactic);
+            //CreateTreeFile createtree = new CreateTreeFile(this.treeSyntactic);//this.treeSyntactic
             //TODO Crear arbol, crear grafico
         }
 
@@ -131,6 +138,11 @@ namespace proyecto2Lenguajes.Controlers
             row.Cells[1].Value = typeError;
             row.Cells[2].Value = row1;
             this.dataGridView.Rows.Add(row);
+        }
+
+        public void setForm1(Form1 form1)
+        {
+            this.form1 = form1;
         }
     }
 }

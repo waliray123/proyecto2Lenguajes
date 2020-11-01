@@ -10,3 +10,4 @@ C:\Users\USUARIO\Desktop\proyecto2Lenguajes\proyecto2Lenguajes\proyecto2Lenguaje
 C:\Users\USUARIO\Desktop\proyecto2Lenguajes\proyecto2Lenguajes\proyecto2Lenguajes\bin\Debug\AutocompleteMenu-ScintillaNET.dll
 C:\Users\USUARIO\Desktop\proyecto2Lenguajes\proyecto2Lenguajes\proyecto2Lenguajes\bin\Debug\ScintillaNET.dll
 C:\Users\USUARIO\Desktop\proyecto2Lenguajes\proyecto2Lenguajes\proyecto2Lenguajes\bin\Debug\ScintillaNET.xml
+C:\Users\USUARIO\Desktop\proyecto2Lenguajes\proyecto2Lenguajes\proyecto2Lenguajes\obj\Debug\proyecto2Lenguajes.FormImage.resources
