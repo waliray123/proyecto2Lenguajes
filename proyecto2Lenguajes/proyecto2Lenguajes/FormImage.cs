@@ -14,8 +14,15 @@ namespace proyecto2Lenguajes
     {
         public FormImage(String pathImage)
         {
-            InitializeComponent();
-            this.pictureBox1.Image = Image.FromFile(pathImage);
+            InitializeComponent();            
+            if (pathImage.Equals("") == false)
+            {
+                this.pictureBox1.Image = Image.FromFile(pathImage);
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void FormImage_Load(object sender, EventArgs e)

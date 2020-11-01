@@ -1,6 +1,8 @@
-﻿using proyecto2Lenguajes.ObjectsCompile;
+﻿using proyecto2Lenguajes.GUILogic;
+using proyecto2Lenguajes.ObjectsCompile;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,7 +23,7 @@ namespace proyecto2Lenguajes.Controlers
             //this.treeSyntactic = treeSyntactic1;
             this.treeAS = treeAS;
             createStringSave();
-            saveTree();
+            //saveTree();
         }
 
         private void createStringSave()
@@ -87,6 +89,47 @@ namespace proyecto2Lenguajes.Controlers
                 }
                 
             }
+        }
+
+        public String saveAndLoadTree()
+        {
+            String pathImage = "";
+            SaveFileDialog saveAs = new SaveFileDialog();
+            saveAs.Filter = "Documento tipo dot |*.dot";
+            saveAs.Title = "Guardar Texto Arbol";
+            var res = saveAs.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(saveAs.FileName))
+                    {
+                        writer.WriteLine(textWrite);
+                    }
+                    String graphVizString = @"" + textWrite;
+                    Bitmap bm = CreateBitMap.Run(graphVizString);
+
+                    for (int x = 0; x < bm.Width; x++)
+                    {
+                        for (int y = 0; y < bm.Height; y++)
+                        {
+                            Color clr = bm.GetPixel(x, y);
+                            Color newClr = Color.FromArgb(clr.R, 0, 0);
+                        }
+                    }
+                    string fileNameSaveAs = saveAs.FileName;
+                    string nameFile = fileNameSaveAs.Replace(".dot", "");
+                    bm.Save(nameFile + @".png");
+                    MessageBox.Show("Se ha creado el png correctamente");
+                    pathImage = nameFile + ".png";
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+
+            }
+            return pathImage;
         }
 
         

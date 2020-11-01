@@ -146,9 +146,10 @@ namespace proyecto2Lenguajes
             if (tree != null)
             {
                 CreateTreeFile createTreeFile = new CreateTreeFile(this.tree);
-                String pathImage = "";
+                String pathImage = createTreeFile.saveAndLoadTree();
 
                 FormImage formI = new FormImage(pathImage);
+                formI.Show();
             }
             else
             {
