@@ -139,8 +139,21 @@ namespace proyecto2Lenguajes
         }
 
         private void richTextBox1_TextChanged_1(object sender, EventArgs e)
-        {            
-                       
+        {
+            this.listBox1.Items.Clear();
+            String allText = this.richTextBox1.Text;
+            String[] tokens = allText.Split(' ');
+            String lastToken1 = tokens[tokens.Length - 1];
+            String[] tokens2 = lastToken1.Split('\n');
+            String lastToken2 = tokens2[tokens2.Length - 1];
+            Console.WriteLine(lastToken2);
+            for (int i = 0; i < this.reserverdWords.Count; i++)
+            {
+                if (this.reserverdWords[i].Contains(lastToken2))
+                {
+                    this.listBox1.Items.Add(this.reserverdWords[i]);
+                }
+            }
         }
 
         private void exportarArbolToolStripMenuItem_Click(object sender, EventArgs e)
