@@ -20,6 +20,9 @@ namespace proyecto2Lenguajes
         private int numberErrors;
         private ControlCompile control;
         private TreeAS tree;
+        private String suggest;
+        private List<String> reserverdWords = new List<string>() { "SI", "SINO", "SINO_SI", "MIENTRAS", "DESDE"};
+
         public Form1()
         {
             InitializeComponent();
@@ -136,9 +139,8 @@ namespace proyecto2Lenguajes
         }
 
         private void richTextBox1_TextChanged_1(object sender, EventArgs e)
-        {
-
-
+        {            
+                       
         }
 
         private void exportarArbolToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,7 +149,6 @@ namespace proyecto2Lenguajes
             {
                 CreateTreeFile createTreeFile = new CreateTreeFile(this.tree);
                 String pathImage = createTreeFile.saveAndLoadTree();
-
                 FormImage formI = new FormImage(pathImage);
                 formI.Show();
             }

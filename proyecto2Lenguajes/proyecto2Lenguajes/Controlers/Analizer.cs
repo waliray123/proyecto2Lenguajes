@@ -71,7 +71,10 @@ namespace proyecto2Lenguajes.Controlers
                             String values = row.getVal();
                             addDiferentsToPile(values);
                             //treeSyntactic.setValues(values);
-                            treeSyntactic.setNoTerminal(nameNoTerminal, tokenR);                       
+                            if (this.numberErrors == 0)
+                            {
+                                treeSyntactic.setNoTerminal(nameNoTerminal, tokenR);
+                            }                       
                             isError = false;
                             break;
                         }
@@ -96,7 +99,10 @@ namespace proyecto2Lenguajes.Controlers
                     {
                         if (lastInPile == tokenRequired)
                         {
-                            treeSyntactic.setNode(tokenR);
+                            if (this.numberErrors == 0)
+                            {
+                                treeSyntactic.setNode(tokenR);
+                            }
                             pile.RemoveAt(pileSize-1);
                             this.numberOfToken++;
                         }
@@ -109,6 +115,10 @@ namespace proyecto2Lenguajes.Controlers
                 }
             }
             this.form1.setTreeAS((object)this.treeSyntactic);
+            if (this.numberErrors == 0)
+            {
+                setPrintAndReadInErrors();
+            }
             //CreateTreeFile createtree = new CreateTreeFile(this.treeSyntactic);//this.treeSyntactic
             //TODO Crear arbol, crear grafico
         }
@@ -137,6 +147,48 @@ namespace proyecto2Lenguajes.Controlers
             row.Cells[0].Value = this.numberErrors;
             row.Cells[1].Value = typeError;
             row.Cells[2].Value = row1;
+            this.dataGridView.Rows.Add(row);
+        }
+
+        public void setPrintAndReadInErrors()
+        {
+            
+            for (int i = 0; i < pileTokens.Count; i++)
+            {
+                String name = pileTokens[i].getName();
+                if (name.Equals("imprimir") || name.Equals("leer"))
+                {
+                    String stringToSet = "";
+                    stringToSet = readPrint(ref i , ref stringToSet);
+                    addPrintAndRead(stringToSet);
+                }
+            }
+        }
+
+        private String readPrint(ref int i, ref String stringToSet)
+        {
+            i++;
+            i++;
+            if (pileTokens[i].getName().Equals("cad") || pileTokens[i].getName().Equals("char"))
+            {
+                stringToSet += pileTokens[i].getVal();
+            }
+            else
+            {
+                stringToSet += pileTokens[i].getName() + "(Buscar valor en tabla)";
+            }
+            if (pileTokens[i+1].getName().Equals("+"))
+            {
+                stringToSet = readPrint(ref i, ref stringToSet);
+            }
+            return stringToSet;
+        }
+
+        public void addPrintAndRead(String typeError)
+        {
+            DataGridViewRow row = new DataGridViewRow();
+            row.CreateCells(this.dataGridView);
+            row.Cells[1].Value = typeError;
             this.dataGridView.Rows.Add(row);
         }
 
